@@ -1,14 +1,16 @@
 from strutils import parseInt
 from strutils import split
 
+const LOW_BORDER = 0
+const HI_BORDER = 2
+const VALID_INPUT_COUNT = 2
+
 type
   Position = tuple[x: int, y: int]
 
 proc validator(val: int): bool =
-  const lowBorder = 0
-  const hiBorder = 2
   case val
-  of lowBorder..hiBorder : return true
+  of LOW_BORDER..HI_BORDER : return true
   else: return false
 
 proc handleInput(message: string, wrongInputMessage:string = "Error!", allowMessages: bool = true): Position =
@@ -16,7 +18,6 @@ proc handleInput(message: string, wrongInputMessage:string = "Error!", allowMess
   var input: string
   let separators = {' ', ',', ';', '(', ')'}
   var inputSeq : seq[string]
-  const seqLen = 2
 
   while true:
     echo(message)
@@ -25,7 +26,7 @@ proc handleInput(message: string, wrongInputMessage:string = "Error!", allowMess
       input = readLine(stdin)
       inputSeq = split(input, separators)
 
-      if inputSeq.len == seqLen:
+      if inputSeq.len == VALID_INPUT_COUNT:
         pos.x = parseInt(split(input, separators)[0])
         pos.y = parseInt(split(input, separators)[1])
 
