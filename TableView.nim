@@ -19,7 +19,7 @@ proc getCellStringValue(value: int) : string =
     else:
         discard
 
-proc generateTableView(game: ref Game) : string  = 
+proc getTableView*(game: ref Game) : string  = 
     let rowsCount = mapSize
     var result : string
 
@@ -47,5 +47,5 @@ proc generateTableView(game: ref Game) : string  =
 # discard g.gameMove(1, 2, 2)
 # discard g.gameMove(2, 1, 1)
 
-# echo generateTableView(g)
+# echo getTableView(g)
 
