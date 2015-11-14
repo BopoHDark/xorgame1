@@ -1,10 +1,11 @@
-const ROWS = 3
-const FIRSTCOLOR = "[1;32m"
-const SECONDCOLOR = "[1;31m"
-const STANDARTCOLOR = "[0m"
+import logic
+
+const FIRSTCOLOR = "\e[1;32m"
+const SECONDCOLOR = "\e[1;31m"
+const STANDARTCOLOR = "\e[0m"
 
 type
-    Field = array[1..ROWS, array[1..ROWS, int]]
+    Field = array[1..mapSize, array[1..mapSize, int]]
 
 
 proc getCellStringValue(value: int) : string = 
@@ -18,15 +19,15 @@ proc getCellStringValue(value: int) : string =
     else:
         discard
 
-proc generateTableView(field: Field) : string  = 
-    let rowsCount = ROWS
+proc generateTableView(game: ref Game) : string  = 
+    let rowsCount = mapSize
     var result : string
 
     result = "\n"
 
     for i in countup(1, rowsCount):
         for j in countup(1, rowsCount):
-            var cellValue = getCellStringValue(field[i][j])
+            var cellValue = getCellStringValue(game.map[i][j])
 
             result = result & cellValue
             if j != rowsCount:
@@ -38,8 +39,13 @@ proc generateTableView(field: Field) : string  =
     result = result & "\n"
     return result
 
-# let fieldExample: Field = [[1, 1, 0],
-#                         [1, 2, 2],
-#                         [0, 1, 0]]
-# echo generateTableView(fieldExample)
+
+
+# test
+# var g = new Game
+# g.gameStart()
+# discard g.gameMove(1, 2, 2)
+# discard g.gameMove(2, 1, 1)
+
+# echo generateTableView(g)
 

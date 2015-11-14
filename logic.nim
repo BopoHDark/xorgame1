@@ -1,15 +1,15 @@
-const mapSize = 10
+const mapSize* = 3
 const winSeqSize = 5
 
 type
     Matrix[W, H: static[int]] = array[1..W, array[1..H, int]]
     Game* = object
-        map: Matrix[mapSize, mapSize]
+        map*: Matrix[mapSize, mapSize]
         activePlayer: int
         winner: int
 
 
-proc gameStart(g: ref Game) =
+proc gameStart*(g: ref Game) =
     if g.activePlayer == 0:
         g.activePlayer = 1
 
@@ -68,7 +68,7 @@ discard """
 """
 
 
-proc gameMove(g: ref Game, player: int, x, y: int): string =
+proc gameMove*(g: ref Game, player: int, x, y: int): string =
     if player != g.activePlayer:
         return "invalid player"
     
@@ -88,7 +88,7 @@ proc getWinner(g: ref Game): int =
     return g.winner
 
 
-var g = new Game
-g.gameStart()
-discard g.gameMove(1,  1, 2)
-echo g.map[1][2]
+#var g = new Game
+#g.gameStart()
+#discard g.gameMove(1,  1, 2)
+#echo g.map[1][2]
