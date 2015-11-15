@@ -1,22 +1,22 @@
 from strutils import parseInt
 from strutils import split
 
-const LOW_BORDER = 0
-const HI_BORDER = 2
+const LOW_BORDER = 1
+const HI_BORDER = 3
 const VALID_INPUT_COUNT = 2
 
 type
-  Position = tuple[x: int, y: int]
+  Position* = tuple[x: int, y: int]
 
 proc validator(val: int): bool =
   case val
   of LOW_BORDER..HI_BORDER : return true
   else: return false
 
-proc handleInput(message: string, wrongInputMessage:string = "Error!", allowMessages: bool = true): Position =
+proc handleInput*(message: string, wrongInputMessage:string = "Error!", allowMessages: bool = true): Position =
   var pos : Position
   var input: string
-  let separators = {' ', ',', ';', '(', ')'}
+  let separators = {' ', ',', ';', '(', ')', '\x09', '\x0B', '\x0D', '\x0A', '\x0C'}
   var inputSeq : seq[string]
 
   while true:
@@ -45,8 +45,5 @@ proc handleInput(message: string, wrongInputMessage:string = "Error!", allowMess
     finally:
       discard
 
-# var pos : Position
+# echo(handleInput("Enter valid mark coordinates(0..2):", "Error! Wrong input.", true))
 
-# echo(handleInput("Enter valid values:"))
-
-# let str_tmp = readLine(stdin)

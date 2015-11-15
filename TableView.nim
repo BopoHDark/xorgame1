@@ -8,7 +8,7 @@ type
     Field = array[1..mapSize, array[1..mapSize, int]]
 
 
-proc getCellStringValue(value: int) : string = 
+proc getCellStringValue(value: int) : string =
     case value
     of 0:
         return " "
@@ -19,7 +19,7 @@ proc getCellStringValue(value: int) : string =
     else:
         discard
 
-proc getTableView*(game: ref Game) : string  = 
+proc getTableView*(game: ref Game) : string  =
     let rowsCount = mapSize
     var result : string
 
