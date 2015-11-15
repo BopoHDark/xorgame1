@@ -1,24 +1,47 @@
 import asyncnet, asyncdispatch
+import strutils
+import gameroom
+import player
 
-var clients {.threadvar.}: seq[AsyncSocket]
+#var clients {.threadvar.}: seq[AsyncSocket]
+var players {.threadvar.}: seq[Player]
+let port = 12345
+var waitingRoom : ref Room
 
-proc processClient(client: AsyncSocket) {.async.} =
+proc processClient(gameroom: ref Room, playerIndex : int) {.async.} =
   while true:
-    let line = await client.recvLine()
-    for c in clients:
-      await c.send(line & "\c\L")
+    var line = await gameroom.players[playerIndex].connection.recvLine()
+    #for c in clients:
+    #  await c.send(line & "\c\L")
+    echo "message " & line
 
 proc serve() {.async.} =
-  clients = @[]
+  players = @[]
   var server = newAsyncSocket()
-  server.bindAddr(Port(12345))
+  server.bindAddr(Port(port))
   server.listen()
   
   while true:
-    let client = await server.accept()
-    clients.add client
-    
-    asyncCheck processClient(client)
+    let connection = await server.accept()
+    var newPlayer = Player()
+    newPlayer.connection = connection
+    #clients.add client
+    players.add newPlayer
+    var playerIndex = 1
 
+    if waitingRoom == nil:
+        waitingRoom = new(Room)
+        waitingRoom.players[playerIndex] = newPlayer
+    else:
+        playerIndex += 1
+        waitingRoom.players[playerIndex] = newPlayer
+        waitingRoom[].startGame()
+        
+    asyncCheck processClient(waitingRoom, playerIndex)
+    
+    if playerIndex == 2:
+      waitingRoom = nil
+
+echo "Start server at port " & intToStr(port)
 asyncCheck serve()
 runForever()

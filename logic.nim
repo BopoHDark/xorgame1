@@ -5,13 +5,16 @@ type
     Matrix[W, H: static[int]] = array[1..W, array[1..H, int]]
     Game* = object
         map*: Matrix[mapSize, mapSize]
-        activePlayer: int
+        activePlayer*: int
         winner: int
+        isStarted: bool
 
 
 proc gameStart*(g: ref Game) =
     if g.activePlayer == 0:
         g.activePlayer = 1
+
+    g.isStarted = true
 
 
 discard """
@@ -66,7 +69,6 @@ discard """
     if max(horLen, vertLen, diag1Len, diag2Len) >= winSeqSize:
         g.winner = g.activePlayer
 """
-
 
 proc gameMove*(g: ref Game, player: int, x, y: int): string =
     if player != g.activePlayer:
