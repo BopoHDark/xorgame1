@@ -13,7 +13,9 @@ proc validator(val: int): bool =
   of LOW_BORDER..HI_BORDER : return true
   else: return false
 
-proc handleInput*(message: string, wrongInputMessage:string = "Error! Wrong input.", allowMessages: bool = true): Position =
+proc handleInput*(message: string = "Enter valid mark coordinates(1..3):",
+                  wrongInputMessage:string = "Error! Wrong input.",
+                  allowMessages: bool = true): Position =
   var pos : Position
   var input: string
   let separators = {' ', ',', ';', '(', ')', '\x09', '\x0B', '\x0D', '\x0A', '\x0C'}
@@ -45,5 +47,5 @@ proc handleInput*(message: string, wrongInputMessage:string = "Error! Wrong inpu
     finally:
       discard
 
-# echo(handleInput("Enter valid mark coordinates(1..3):", "Error! Wrong input.", true))
+# echo(handleInput())
 
